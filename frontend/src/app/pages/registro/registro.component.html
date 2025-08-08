@@ -1,0 +1,23 @@
+
+<div class="container">
+    <h2>Registro de Clientes</h2>
+    <form id="registroForm" method="post">  
+        
+        <mat-form-field class="example-full-width">
+            <mat-label>Usuario:</mat-label>
+            <input matInput placeholder=""  name="nombre" required [(ngModel)]="cliente.username">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Correo electrónico:</mat-label>
+            <input matInput placeholder=""  name="email" [(ngModel)]="cliente.email">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Contraseña:</mat-label>
+            <input matInput placeholder=""  name="password" [(ngModel)]="cliente.password">
+        </mat-form-field>
+
+        <button type="submit" (click)="guardar()">Registrar</button>
+    </form>
+</div>

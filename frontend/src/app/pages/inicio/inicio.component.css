@@ -1,0 +1,39 @@
+/* Estilos para la página de inicio */
+.welcome-container {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2em;
+    margin: 20px 0;
+    color: #666;
+}
+
+.cta-button {
+    background-color: #000000;
+    color: white;
+    padding: 15px 25px;
+    font-size: 1.1em;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #222222;
+}

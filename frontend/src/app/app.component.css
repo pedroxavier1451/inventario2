@@ -1,0 +1,77 @@
+/* Resetear estilos para eliminar márgenes y rellenos predeterminados */
+body, h1, h2, h3, p, ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Estilos para la cabecera */
+  header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  /* Estilos para el menú */
+  /* Estilos base del menú */
+/* Estilos para el menú */
+nav ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #333;
+  text-align: center;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0;
+}
+
+nav ul li a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+nav ul li a:hover {
+  background-color: #ef8e8e;
+  color: #fff;
+}
+
+  /* Estilos para el pie de página */
+  footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  /* Estilos generales */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+main {
+  flex-grow: 1;
+  background-color: #f0f0f0;
+  max-width: 1200px; /* Tamaño estático del main */
+  margin: 0 auto; /* Centrar el main en la página */
+  padding: 20px;
+  width: 100%;
+}
+
+  
