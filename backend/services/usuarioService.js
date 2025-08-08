@@ -1,14 +1,12 @@
 const userRepository = require('../repositories/usuarioRepository');
 
 // Función para crear un usuario
-const createUser = async (name, email, password) => {
-  // Aquí podrías agregar validaciones antes de guardar en la DB
-  if (!name || !email || !password) {
+const createUser = async (username, email, password) => {
+  if (!username || !email || !password) {
     throw new Error('Todos los campos son obligatorios');
   }
-  
   // Guardar el usuario en la base de datos
-  const user = await userRepository.createUser(name, email, password);
+  const user = await userRepository.createUser(username, email, password);
   return user;
 };
 

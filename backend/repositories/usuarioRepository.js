@@ -1,14 +1,14 @@
 const db = require('../db/db');
 
 // Función para insertar un usuario en la base de datos
-const createUser = (name, email, password) => {
+const createUser = (username, email, password) => {
   return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
-    db.run(sql, [name, email, password], function (err) {
+    const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+    db.run(sql, [username, email, password], function (err) {
       if (err) {
         reject(err);
       } else {
-        resolve({ id: this.lastID, name, email });
+        resolve({ id: this.lastID, username, email });
       }
     });
   });
