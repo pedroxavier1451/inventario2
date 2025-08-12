@@ -1,28 +1,39 @@
-const userService = require('../services/usuarioService');
+const usuarioService = require('../services/usuarioService');
 
-// Crear un nuevo usuario
 const registerUser = async (req, res) => {
-  console.log('BODY RECIBIDO:', req.body); // <-- Agrega este log
   try {
     const { username, email, password } = req.body;
-    const user = await userService.createUser(username, email, password);
-    res.status(201).json(user); // 201 Created
+    const user = await usuarioService.createUser(username, email, password);
+    res.status(201).json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-// Obtener todos los usuarios
 const getUsers = async (req, res) => {
   try {
-    const users = await userService.getUsers();
-    res.status(200).json(users); // 200 OK
+    const users = await usuarioService.getUsers();
+    res.json(users);
   } catch (error) {
-    res.status(500).json({ message: 'Error al obtener los usuarios' });
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const loginUser = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await usuarioService.loginUser(username, password);
+    if (!user) {
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
+    }
+    res.json({ message: 'Login exitoso', user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 module.exports = {
   registerUser,
   getUsers,
+  loginUser
 };

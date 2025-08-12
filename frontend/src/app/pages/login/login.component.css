@@ -1,0 +1,40 @@
+.container {
+  max-width: 400px;       /* Ancho máximo del formulario */
+  margin: 40px auto;      /* Centrado horizontal y algo de margen vertical */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+.container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;  /* Hace que los elementos se coloquen verticalmente */
+  gap: 15px;               /* Espacio entre cada campo y botón */
+}
+
+mat-form-field {
+  width: 100%;             /* Que cada campo ocupe todo el ancho disponible */
+}
+
+button {
+  padding: 10px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #115293;
+}

@@ -16,7 +16,17 @@ export class ClienteService {
   }
 
   getAll(){
-    return this.http.get<any>("http://localhost:8080/microservicios-rs/api/cliente/all");
+    return this.http.get<any>("http://localhost:3000/api/all");
+  }
+
+  login(cliente: Cliente) {
+    console.log("Post login");
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(
+      "http://localhost:3000/api/login",
+      JSON.stringify(cliente),
+      { headers }
+    );
   }
   
 }

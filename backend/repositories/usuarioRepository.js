@@ -28,7 +28,22 @@ const getUsers = () => {
   });
 };
 
+const getUserByUsernameOrEmail = (username) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM users WHERE username = ? OR email = ? LIMIT 1';
+    db.get(sql, [username, username], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(row); // row es undefined si no hay resultado
+      }
+    });
+  });
+};
+
+
 module.exports = {
   createUser,
   getUsers,
+  getUserByUsernameOrEmail
 };

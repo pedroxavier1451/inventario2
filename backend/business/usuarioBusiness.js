@@ -1,33 +1,23 @@
 const usuarioRepository = require('../repositories/usuarioRepository');
 
 // Lógica de negocio para crear un usuario
-const crearUsuario = (username, email, password, callback) => {
+const validarDatosUsuario = (username, email, password) => {
   // Validaciones de la lógica de negocio
   if (!username || !email || !password) {
-    return callback({ message: 'Todos los campos son obligatorios' }, null);
+    throw new Error('Todos los campos son obligatorios');
   }
 
   if (password.length < 6) {
-    return callback({ message: 'La contraseña debe tener al menos 6 caracteres' }, null);
+    throw new Error('La contraseña debe tener al menos 6 caracteres');
   }
-
-  // Si todo es correcto, llama al repositorio
-  usuarioRepository.crearUsuario(username, email, password, (err, result) => {
-    if (err) {
-      return callback({ message: 'Error al crear usuario en la base de datos' }, null);
-    }
-    callback(null, result);
-  });
+  return true;
 };
 
-// Lógica de negocio para obtener usuarios
-const listarUsuarios = (callback) => {
-  usuarioRepository.obtenerUsuarios((err, result) => {
-    if (err) {
-      return callback({ message: 'Error al obtener usuarios' }, null);
-    }
-    callback(null, result);
-  });
+const validarDatosLogin = (username, password) => {
+  if (!username || !password) {
+    throw new Error('El usuario o email y la contraseña son obligatorios');
+  }
+  return true;
 };
 
-module.exports = { crearUsuario, listarUsuarios };
+module.exports = { validarDatosUsuario, validarDatosLogin};

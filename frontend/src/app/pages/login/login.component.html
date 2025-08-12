@@ -1,1 +1,18 @@
-<p>login works!</p>
+<div class="container">
+  <h2>Iniciar Sesión</h2>
+  <form id="loginForm" method="post">
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Usuario o Correo:</mat-label>
+      <input matInput placeholder="" name="username" required [(ngModel)]="cliente.username">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Contraseña:</mat-label>
+      <input matInput placeholder="" type="password" name="password" required [(ngModel)]="cliente.password">
+    </mat-form-field>
+
+    <button type="submit" (click)="iniciarSesion()">Ingresar</button>
+
+  </form>
+</div>

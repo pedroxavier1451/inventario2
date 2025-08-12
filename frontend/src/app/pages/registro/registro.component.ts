@@ -38,7 +38,7 @@ export class RegistroComponent {
     this.clientesService.save(usuario).subscribe({
       next: data => {
         console.log("Resultado WS SAVE", data);
-        this.router.navigate(['paginas/Registros']);
+        this.router.navigate(['pages/login']);
         alert("Se agrego correctamente");
       },
       error: err => {
