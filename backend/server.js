@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const userRouter = require('./routers/usuarioRouter');
+const sequelize = require('./db/db');
 
 const app = express();
 const port = 3000;
@@ -16,6 +17,10 @@ app.use(bodyParser.json());
 // Usar las rutas de usuario
 app.use('/api', userRouter);
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+// Sincronizar DB y luego levantar servidor
+sequelize.sync().then(() => {
+  console.log('Base de datos sincronizada');
+  app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
+  });
 });
