@@ -1,0 +1,80 @@
+/* Contenedor principal */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Título */
+.container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #3f51b5;
+}
+
+/* Formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Botones */
+button[mat-raised-button] {
+  background-color: #3f51b5;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #303f9f;
+}
+
+button[mat-button] {
+  color: #f44336;
+}
+
+button mat-icon {
+  vertical-align: middle;
+}
+
+/* Tabla */
+table.mat-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Encabezados */
+th.mat-header-cell {
+  background-color: #3f51b5;
+  color: #fff;
+  font-weight: 500;
+  text-align: left;
+  padding: 12px 15px;
+}
+
+/* Celdas */
+td.mat-cell {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Fila al pasar el mouse */
+tr.mat-row:hover {
+  background-color: rgba(63, 81, 181, 0.1);
+}
+
+/* Botones de acción */
+button.mat-icon-button {
+  margin-right: 8px;
+}
+
+button.mat-icon-button mat-icon {
+  font-size: 20px;
+}

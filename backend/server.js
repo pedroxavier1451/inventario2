@@ -1,7 +1,11 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const userRouter = require('./routers/usuarioRouter');
+const productoRouter = require('./routers/productoRouter');
+const compraRouter = require('./routers/compraRouter');
 const sequelize = require('./db/db');
 
 const app = express();
@@ -12,10 +16,14 @@ app.use(cors({
   origin: 'http://localhost:4200'  // O usa '*' para permitir todos
 }));
 
+console.log("JWT_SECRET =", process.env.JWT_SECRET); 
+
 app.use(bodyParser.json());
 
 // Usar las rutas de usuario
-app.use('/api', userRouter);
+app.use('/usuario', userRouter);
+app.use('/producto', productoRouter); 
+app.use('/compra', compraRouter); 
 
 // Sincronizar DB y luego levantar servidor
 sequelize.sync().then(() => {

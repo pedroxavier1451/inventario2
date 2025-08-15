@@ -2,8 +2,8 @@ const Usuario = require('../models/usuario');
 const { Op } = require('sequelize');
 
 // Función para insertar un usuario en la base de datos
-const createUser = async (username, email, password) => {
-  return await Usuario.create({ username, email, password });
+const createUser = async (username, email, password, rol) => {
+  return await Usuario.create({ username, email, password, rol });
 };
 
 const getUsers = async () => {

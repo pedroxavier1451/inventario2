@@ -1,5 +1,15 @@
 const usuarioRepository = require('../repositories/usuarioRepository');
 
+// usuarioBusiness.js
+const correosAdmin = ["admin@gmail.com", "admin2@gmail.com"];
+
+const asignarRol = (email) =>{
+  if (correosAdmin.includes(email)) {
+    return "admin";
+  }
+  return "cliente";
+}
+
 // Lógica de negocio para crear un usuario
 const validarDatosUsuario = (username, email, password) => {
   // Validaciones de la lógica de negocio
@@ -20,4 +30,4 @@ const validarDatosLogin = (username, password) => {
   return true;
 };
 
-module.exports = { validarDatosUsuario, validarDatosLogin};
+module.exports = { validarDatosUsuario, validarDatosLogin, asignarRol};

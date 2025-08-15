@@ -32,7 +32,8 @@ export class RegistroComponent {
     const usuario = {
       username: this.cliente.username,
       email: this.cliente.email,
-      password: this.cliente.password
+      password: this.cliente.password,
+      rol: this.cliente.rol || 'cliente'
     };
     console.log('Enviando usuario:', usuario);
     this.clientesService.save(usuario).subscribe({

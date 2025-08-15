@@ -1,49 +1,53 @@
-const db = require('../db/db');
+const Producto = require('../models/producto');
+const { Op } = require('sequelize');
 
 // Función para insertar un producto en la base de datos
-const createProducto = (name, category, amount, price) => {
-  return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO productos (name, category, amount, price) VALUES (?, ?, ?, ?)';
-    db.run(sql, [name, category, amount, price], function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ id: this.lastID, name, category, amount, price });
-      }
-    });
+const createProducto = async (nombre, categoria, cantidad, precio) => {
+  return await Producto.create({ nombre, categoria, cantidad, precio });
+};
+
+// Obtener todos los productos
+const getProductos = async () => {
+  return await Producto.findAll();
+};
+
+// Obtener un producto por nombre o categoría (ejemplo de búsqueda)
+const getProductoByNombreOrCategoria = async (nombreOrCategoria) => {
+  return await Producto.findOne({
+    where: {
+      [Op.or]: [{ nombre: nombreOrCategoria }, { categoria: nombreOrCategoria }]
+    }
   });
 };
 
-// Función para obtener todos los productos
-const getProductos = () => {
-  return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM productos';
-    db.all(sql, [], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+const updateProducto = async (id, nombre, categoria, cantidad, precio) => {
+  const producto = await Producto.findByPk(id);
+  if (!producto) {
+    throw new Error(`Producto con id ${id} no encontrado`);
+  }
+
+  producto.nombre = nombre ?? producto.nombre;
+  producto.categoria = categoria ?? producto.categoria;
+  producto.cantidad = cantidad ?? producto.cantidad;
+  producto.precio = precio ?? producto.precio;
+
+  await producto.save();
+  return producto;
 };
 
-// (Opcional) función para buscar producto por nombre o categoría (ejemplo)
-const getProductoByNombreOrCategoria = (nombreOrCategoria) => {
-  return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM productos WHERE nombre = ? OR categoria = ? LIMIT 1';
-    db.get(sql, [nombreOrCategoria, nombreOrCategoria], (err, row) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(row); // row es undefined si no hay resultado
-      }
-    });
-  });
+const deleteProducto = async (id) => {
+  const producto = await Producto.findByPk(id);
+  if (!producto) {
+    throw new Error(`Producto con id ${id} no encontrado`);
+  }
+  await producto.destroy();
+  return true;
 };
 
 module.exports = {
   createProducto,
   getProductos,
-  getProductoByNombreOrCategoria
+  getProductoByNombreOrCategoria,
+  updateProducto,
+  deleteProducto
 };

@@ -7,23 +7,24 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ClienteService {
 
+  private baseUrl = "http://localhost:3000/usuario";
+
   constructor(private http:HttpClient) { }
 
   save(cliente: Cliente){
     console.log("Post");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>("http://localhost:3000/api/register", JSON.stringify(cliente), { headers })
+    return this.http.post<any>(`${this.baseUrl}/register`, JSON.stringify(cliente), { headers })
   }
 
   getAll(){
-    return this.http.get<any>("http://localhost:3000/api/all");
+    return this.http.get<any>(`${this.baseUrl}/get`);
   }
 
   login(cliente: Cliente) {
     console.log("Post login");
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>(
-      "http://localhost:3000/api/login",
+    return this.http.post<any>(`${this.baseUrl}/login`,
       JSON.stringify(cliente),
       { headers }
     );

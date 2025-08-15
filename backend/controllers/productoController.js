@@ -1,34 +1,48 @@
-const db = require('../db/db');
+const productoService = require('../services/productoService');
 
-// Función para insertar un producto en la base de datos
-const createProducto = (name, category, amount, price) => {
-  return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO productos (name, category, amount, price) VALUES (?, ?, ?, ?)';
-    db.run(sql, [name, category, amount, price], function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ id: this.lastID, name, category, amount, price});
-      }
-    });
-  });
+const createProducto = async (req, res) => {
+  try {
+    const { nombre, categoria, cantidad, precio } = req.body;
+    const producto = await productoService.createProducto(nombre, categoria, cantidad, precio);
+    res.status(201).json(producto);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
-// Función para obtener todos los productos
-const getProductos = () => {
-  return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM productos';
-    db.all(sql, [], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+const getProductos = async (req, res) => {
+  try {
+    const productos = await productoService.getProductos();
+    res.json(productos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateProducto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nombre, categoria, cantidad, precio } = req.body;
+    const producto = await productoService.updateProducto(id, nombre, categoria, cantidad, precio);
+    res.json(producto);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const deleteProducto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await productoService.deleteProducto(id);
+    res.json({ message: `Producto con id ${id} eliminado correctamente` });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 module.exports = {
   createProducto,
-  getProductos
+  getProductos,
+  updateProducto,
+  deleteProducto
 };

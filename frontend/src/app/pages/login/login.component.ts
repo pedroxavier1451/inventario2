@@ -22,13 +22,34 @@ export class LoginComponent {
 
   iniciarSesion() {
     this.clienteService.login(this.cliente).subscribe({
-      next: (respuesta) => {
-        alert(respuesta.mensaje);
-        console.log('Usuario logueado:', respuesta.user);
-        this.router.navigate(['pages/inventario']);
+      next: (respuesta: any) => {
+        console.log("📩 Respuesta cruda del backend:", respuesta);
+        alert(respuesta.message);  // usa message, no mensaje
+
+        if (respuesta.user) {
+          const rol = respuesta.user.rol;
+          console.log("Rol del usuario:", rol);
+
+          // Guardar token solo si es admin
+          if (rol === 'admin') {
+            localStorage.setItem('token', respuesta.token);
+            console.log("✅ Token guardado para admin:", respuesta.token);
+          } else {
+            console.log("Usuario cliente no almacena token de registro/productos");
+          }
+
+          // Redirigir según rol
+          if (rol === 'cliente') {
+            this.router.navigate(['pages/tienda']);
+          } else if (rol === 'admin') {
+            this.router.navigate(['pages/inventario']);
+          }
+        } else {
+          console.error('No se recibió usuario desde el backend');
+        }
       },
       error: (err) => {
-        alert(err.error.mensaje || 'Error al iniciar sesión');
+        alert(err.error?.message || 'Error al iniciar sesión');
       }
     });
   }
