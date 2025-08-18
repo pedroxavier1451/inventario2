@@ -11,6 +11,10 @@ const getProductos = async () => {
   return await Producto.findAll();
 };
 
+const obtenerPorId = async (id) => {
+  return await Producto.findByPk(id);
+};
+
 // Obtener un producto por nombre o categoría (ejemplo de búsqueda)
 const getProductoByNombreOrCategoria = async (nombreOrCategoria) => {
   return await Producto.findOne({
@@ -49,5 +53,6 @@ module.exports = {
   getProductos,
   getProductoByNombreOrCategoria,
   updateProducto,
-  deleteProducto
+  deleteProducto,
+  obtenerPorId
 };

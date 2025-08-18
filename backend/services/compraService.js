@@ -2,9 +2,9 @@ const compraRepository = require('../repositories/compraRepository');
 const compraBusiness = require('../business/compraBusiness');
 
 // Crear una compra
-const createCompra = async (clienteId, productoId, cantidad) => {
-  const { producto, total } = await compraBusiness.procesarCompra(productoId, cantidad);
-  return await compraRepository.createCompra(clienteId, productoId, cantidad, total);
+const createCompra = async (clienteId, productos) => {
+   const { total, iva, detalles } = await compraBusiness.procesarCompra(clienteId, productos);
+  return await compraRepository.createCompra(clienteId, total, iva, detalles);
 };
 
 // Obtener todas las compras
@@ -13,8 +13,8 @@ const getCompras = async () => {
 };
 
 // Actualizar compra (solo admin)
-const updateCompra = async (id, clienteId, productoId, cantidad, total) => {
-  return await compraRepository.updateCompra(id, clienteId, productoId, cantidad, total);
+const updateCompra = async (id, compraData, detalles) => {
+  return await compraRepository.updateCompra(id, compraData, detalles);
 };
 
 // Eliminar compra (solo admin)

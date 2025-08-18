@@ -2,8 +2,11 @@ const compraService = require('../services/compraService');
 
 const createCompra = async (req, res) => {
   try {
-    const { clienteId, productoId, cantidad } = req.body;
-    const compra = await compraService.createCompra(clienteId, productoId, cantidad);
+    const { clienteId, productos } = req.body;
+    if (!clienteId || !Array.isArray(productos) || productos.length === 0) {
+      return res.status(400).json({ message: 'clienteId y productos son requeridos' });
+    }
+    const compra = await compraService.createCompra(clienteId, productos);
     res.status(201).json(compra);
   } catch (error) {
     res.status(400).json({ message: error.message });

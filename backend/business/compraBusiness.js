@@ -1,4 +1,3 @@
-const compraRepository = require('../repositories/compraRepository');
 const productoRepository = require('../repositories/productoRepository');
 
 // Validar la compra (ya existente)
@@ -27,20 +26,34 @@ const validarCompraProducto = async (productoId, cantidadSolicitada) => {
   return producto;
 };
 
-// Procesar la compra: valida, calcula total y reduce stock
-const procesarCompra = async (productoId, cantidadSolicitada) => {
-  // Validar la compra
-  const producto = await validarCompraProducto(productoId, cantidadSolicitada);
+// Procesar una compra con varios productos
+const procesarCompra = async (clienteId, productos) => {
+  // productos: [{ productoId, cantidad }]
+  let total = 0;
+  const detalles = [];
 
-  // Calcular total
-  const total = producto.precio * cantidadSolicitada;
+  for (const item of productos) {
+    const producto = await validarCompraProducto(item.productoId, item.cantidad);
 
-  // Reducir stock
-  producto.cantidad -= cantidadSolicitada;
-  await producto.save();
+    const subtotal = producto.precio * item.cantidad;
+    total += subtotal;
 
-  // Retornar datos listos para guardar la compra
-  return { producto, total };
+    // Reducir stock
+    producto.cantidad -= item.cantidad;
+    await producto.save();
+
+    detalles.push({
+      productoId: item.productoId,
+      cantidad: item.cantidad,
+      precioUnitario: producto.precio,
+      subtotal
+    });
+  }
+
+  // Calcular IVA
+  const iva = total * 0.12;
+
+  return { clienteId, total, iva, detalles };
 };
 
 module.exports = {

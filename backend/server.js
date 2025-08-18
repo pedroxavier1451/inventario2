@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const userRouter = require('./routers/usuarioRouter');
 const productoRouter = require('./routers/productoRouter');
 const compraRouter = require('./routers/compraRouter');
+const detalleCompraRouter = require('./routers/detalleCompraRouter');
 const sequelize = require('./db/db');
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use('/usuario', userRouter);
 app.use('/producto', productoRouter); 
 app.use('/compra', compraRouter); 
+app.use('/detalle-compra', detalleCompraRouter);
 
 // Sincronizar DB y luego levantar servidor
 sequelize.sync().then(() => {

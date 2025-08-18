@@ -1,32 +1,35 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/db');
 
-const Compra = sequelize.define('Compra', {
+const DetalleCompra = sequelize.define('DetalleCompra', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  clienteId: {
+  compraId: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  fecha: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW
+  productoId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
-  total: {
+  cantidad: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  precioUnitario: {
     type: DataTypes.FLOAT,
     allowNull: false
   },
-  iva: {
+  subtotal: {
     type: DataTypes.FLOAT,
     allowNull: false
   }
 }, {
-  tableName: 'compras',
+  tableName: 'detalle_compras',
   timestamps: true
 });
 
-module.exports = Compra;
+module.exports = DetalleCompra;

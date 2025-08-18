@@ -1,58 +1,73 @@
-const Compra = require('../models/compra');
+const { Compra, DetalleCompra } = require('../models');
 const { Op } = require('sequelize');
 
-// Crear una nueva compra
-const createCompra = async (clienteId, productoId, cantidad, total) => {
-  return await Compra.create({ clienteId, productoId, cantidad, total });
-};
-
-// Obtener todas las compras
-const getCompras = async () => {
-  return await Compra.findAll();
-};
-
-// Obtener compras por cliente o producto
-const getCompraByClienteOrProducto = async (clienteIdOrProductoId) => {
-  return await Compra.findAll({
-    where: {
-      [Op.or]: [
-        { clienteId: clienteIdOrProductoId },
-        { productoId: clienteIdOrProductoId }
-      ]
-    }
-  });
-};
-
-// Actualizar compra
-const updateCompra = async (id, clienteId, productoId, cantidad, total) => {
-  const compra = await Compra.findByPk(id);
-  if (!compra) {
-    throw new Error(`Compra con id ${id} no encontrada`);
+// Crear una nueva compra con detalles
+const createCompra = async (clienteId, total, iva, detalles) => {
+  // detalles: [{ productoId, cantidad, precioUnitario, subtotal }]
+  const compra = await Compra.create({ clienteId, total, iva });
+  for (const detalle of detalles) {
+    await DetalleCompra.create({
+      compraId: compra.id,
+      productoId: detalle.productoId,
+      cantidad: detalle.cantidad,
+      precioUnitario: detalle.precioUnitario,
+      subtotal: detalle.subtotal
+    });
   }
-
-  compra.clienteId = clienteId ?? compra.clienteId;
-  compra.productoId = productoId ?? compra.productoId;
-  compra.cantidad = cantidad ?? compra.cantidad;
-  compra.total = total ?? compra.total;
-
-  await compra.save();
   return compra;
 };
 
-// Eliminar compra
+// Obtener todas las compras con detalles
+const getCompras = async () => {
+  return await Compra.findAll({
+    include: [{ model: DetalleCompra, as: 'detalles' }]
+  });
+};
+
+// Obtener compras por cliente
+const getCompraById = async (clienteId) => {
+  return await Compra.findAll({
+    where: { clienteId },
+    include: [{ model: DetalleCompra, as: 'detalles' }]
+  });
+};
+
+// Eliminar compra y sus detalles
 const deleteCompra = async (id) => {
-  const compra = await Compra.findByPk(id);
-  if (!compra) {
-    throw new Error(`Compra con id ${id} no encontrada`);
-  }
-  await compra.destroy();
+  await DetalleCompra.destroy({ where: { compraId: id } });
+  await Compra.destroy({ where: { id } });
   return true;
+};
+
+// Actualizar una compra y sus detalles
+const updateCompra = async (id, compraData, detalles) => {
+  // Actualiza la compra principal
+  await Compra.update(compraData, { where: { id } });
+
+  // Elimina los detalles anteriores
+  await DetalleCompra.destroy({ where: { compraId: id } });
+
+  // Crea los nuevos detalles
+  for (const detalle of detalles) {
+    await DetalleCompra.create({
+      compraId: id,
+      productoId: detalle.productoId,
+      cantidad: detalle.cantidad,
+      precioUnitario: detalle.precioUnitario,
+      subtotal: detalle.subtotal
+    });
+  }
+
+  // Retorna la compra actualizada con sus nuevos detalles
+  return await Compra.findByPk(id, {
+    include: [{ model: DetalleCompra, as: 'detalles' }]
+  });
 };
 
 module.exports = {
   createCompra,
   getCompras,
-  getCompraByClienteOrProducto,
-  updateCompra,
-  deleteCompra
+  getCompraById,
+  deleteCompra,
+  updateCompra
 };
